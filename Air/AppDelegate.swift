@@ -11,6 +11,8 @@ import NotificationCenter
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    // Refresh interval, in seconds. Default is 300 = 5 mins
+    static let TIME_INTERVAL_SECONDS = TimeInterval(300)
     
     @IBOutlet weak var window: NSWindow!
     static var shared: AppDelegate? {
@@ -62,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func startTimer() {
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 600, target: self, selector: #selector(updateAirQuality), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: AppDelegate.TIME_INTERVAL_SECONDS, target: self, selector: #selector(updateAirQuality), userInfo: nil, repeats: true)
     }
     
     @objc func updateAirQuality() {

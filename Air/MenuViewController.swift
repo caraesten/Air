@@ -29,7 +29,7 @@ class MenuViewController: NSViewController {
         if let zipcode = UserDefaults.standard.zipcode {
             self.zipcodeLabel.cell?.title = zipcode
         } else {
-            self.zipcodeLabel.cell?.title = "94115"
+            self.zipcodeLabel.cell?.title = "94606"
         }
 
     }
