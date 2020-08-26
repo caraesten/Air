@@ -10,7 +10,7 @@ import Cocoa
 import NotificationCenter
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     // Refresh interval, in seconds. Default is 300 = 5 mins
     static let TIME_INTERVAL_SECONDS = TimeInterval(300)
     
@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func closePopover(sender: AnyObject?) {
         popover.performClose(sender)
+        statusItem.button?.highlight(true)
     }
     
     @objc func togglePopover(sender: AnyObject?) {
@@ -43,6 +44,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func popoverShouldClose(_ popover: NSPopover) -> Bool {
+        statusItem.button?.highlight(true)
+        return true
+    }
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         
         
@@ -50,13 +56,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.title = "..."
             button.target = self
             button.action = #selector(self.togglePopover(sender:))
-            button.highlight(true)
         }
         let menu = MenuViewController(nibName: NSNib.Name(rawValue: "MenuView"), bundle: nil)
         popover.contentViewController = menu
         self.menuVew = menu
         popover.animates = true
         popover.behavior = .transient
+        popover.delegate = self
         
         updateAirQuality()
         startTimer()
